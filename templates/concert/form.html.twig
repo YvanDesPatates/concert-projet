@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block body %}
+    <div class="createForm">
+    {{ form(form) }}
+    </div>
+{% endblock %}
+
+{% block style %}
+<style>
+    .createForm{
+    margin : 2%
+    }
+</style>
+{% endblock %}

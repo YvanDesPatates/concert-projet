@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <div id="contenu">
+        <h3> se connecter </h3>
+        <form action="{{ path('app_sign_in') }}" method="post">
+            <label for="username">Email:</label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="_password"/>
+    {#        <input type="hidden" name="_target_path" value="/concert">#}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <button type="submit">login</button>
+        </form>
+        <h6> pas encore de compte ? <a href="{{ path('app_register') }}"> créez un compte </a></h6>
+    </div>
+{% endblock %}
+
+{% block style %}
+    <style>
+        #contenu{
+            text-align: center;
+            padding: 2%;
+        }
+        #contenu>*{
+            margin: 2%;
+        }
+    </style>
+{% endblock %}

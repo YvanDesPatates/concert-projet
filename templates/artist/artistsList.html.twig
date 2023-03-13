@@ -1,0 +1,80 @@
+{% extends "base.html.twig" %}
+
+    {% block body %}
+        <div id="ajout">
+            <a href="{{ path('app_artist_new') }}"> <button type="button" class="btn btn-primary "> + | Nouvel artist</button> </a>
+        </div>
+        {% if likedArtists is not empty %}
+            <h4> Vos likes : </h4>
+            <div class="artist liked">
+                {% for artist in likedArtists %}
+                    <a href="{{ path('artist', {id: artist.id}) }}">
+                        <div class="card" style="width: 18rem;">
+                            {% if artist.getPhotos().get(0)%}
+                                <img class="card-img-top" src="{{ artist.getPhotos().get(0).getUrl() }}" alt="Card image cap">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{  artist.getName() }}</h5>
+                                <a href="{{ path('app_artist_edit', {id: artist.id}) }}" class="btn btn-primary"> Update </a>
+                                <a href="{{ path('app_artist_delete', {id: artist.id}) }}" class="btn btn-danger"> X </a>
+                              <a href=" {{ path('dislike_artist', {idUser: app.user.id, idArtist: artist.id}) }}"> <img class="heart" src="/Symphony/concertProject/assets/fullHeart.png" alt="dislike"> </a>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <h4> Tout les artists : </h4>
+        <div class="artist">
+            {% for artist in artists %}
+                <a href="{{ path('artist', {id: artist.id}) }}">
+                    <div class="card" style="width: 18rem;">
+                        {% if artist.getPhotos().get(0)%}
+                        <img class="card-img-top" src="{{ artist.getPhotos().get(0).getUrl() }}" alt="Card image cap">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{  artist.getName() }}</h5>
+                            <a href="{{ path('app_artist_edit', {id: artist.id}) }}" class="btn btn-primary"> Update </a>
+                            <a href="{{ path('app_artist_delete', {id: artist.id}) }}" class="btn btn-danger"> X </a>
+                            {% if app.user %}
+                                {% if app.user.artistsLiked.contains(artist) %} <a href=" {{ path('dislike_artist', {idUser: app.user.id, idArtist: artist.id}) }}">  <img class="heart" src="/Symphony/concertProject/assets/fullHeart.png" alt="dislike"> </a>
+                                {% else %} <a href=" {{ path('like_artist', {idUser: app.user.id, idArtist: artist.id}) }}"> <img class="heart" src="/Symphony/concertProject/assets/emptyHeart.png" alt="dislike"> </a> {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% endblock %}
+
+    {% block style %}
+        <style>
+            h4{
+                margin-left: 2%;
+                margin-top: 4%;
+            }
+
+            .artist{
+                display: flex;
+                justify-content: space-evenly;
+                flex-wrap: wrap;
+            }
+
+            .card{
+                margin-top: 1%;
+            }
+
+            #ajout{
+                margin: 1%;
+                padding-left: 5%;
+            }
+            .btn{
+                min-width: 25%;
+            }
+            .heart{
+                max-width: 40px;
+                margin-left: 20%;
+            }
+        </style>
+    {% endblock %}

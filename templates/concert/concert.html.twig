@@ -1,0 +1,79 @@
+{% extends "base.html.twig" %}
+
+    {% block body %}
+        <div class="concert">
+            <h1> {{  concert.name }} </h1>
+            {% if not concert.artistsPerformers.isEmpty() %}
+                <h5> A voir à ce concert : </h5>
+                <div id="artists">
+                    {% for artist in concert.artistsPerformers %}
+                        <a href="{{ path('artist', {id: artist.id}) }}">
+                            <div class="card">
+                                {% if artist.getPhotos().get(0)%}
+                                    <img class="card-img-top" src="{{ artist.getPhotos().get(0).getUrl() }}" alt="image de l'artiste">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h6 class="card-title">{{  artist.getName() }}</h6>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if concert.description %}
+                <h5>  le concert en quelques mots :</h5>
+                <div> {{ concert.description }}</div>
+            {% endif %}
+            <div class="photos">
+                {% if not concert.photos.isEmpty() %}
+                    <h5>la tournée en photos</h5>
+                {% endif %}
+                {% for photo in concert.photos %}
+                    <img class="photo rounded mx-auto d-block" src="{{ photo.getUrl() }}" alt="{{ photo.getAlternativeName() }}">
+                {% endfor %}
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block style %}
+        <style>
+            h1{
+                margin: 20px;
+            }
+
+            h5{
+                margin-top: 40px;
+            }
+
+            a{
+                color: black;
+                width: 15%;
+                margin: 1%;
+            }
+
+            #artists{
+                display: flex;
+                justify-content: space-evenly;
+            }
+
+            .concert{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .photos{
+                margin: 0 2%;
+                border: solid 1px lightgrey;
+                border-radius: 15px;
+                display: flex;
+                /*justify-content: center;*/
+                align-items: center;
+            }
+
+            .photo{
+                margin: 1%;
+                max-width: 20%;
+            }
+
+        </style>
+    {% endblock %}

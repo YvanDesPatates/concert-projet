@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+
+    {% block body %}
+        <div class="artist">
+            <h1> {{ artist.getName() }} </h1>
+
+            {% if not concerts is empty%}
+                <h5>les concerts à venir : </h5>
+            <ul>
+            {% for concert in concerts %}
+                <li> {{ concert.name }} prévu le {{ concert.date.format('d-m-Y H:i') }}</li>
+            {% endfor %}
+            </ul>
+            {% else %}
+                <h5> pas de futurs concerts prévus</h5>
+            {% endif %}
+
+            <h5> {{ artist.getName() }} en photos</h5>
+            <div class="photos">
+                {% for photo in artist.getPhotos() %}
+                    <img class="photo rounded mx-auto d-block" src="{{ photo.getUrl() }}" alt="{{ photo.getAlternativeName() }}">
+                {% endfor %}
+            </div>
+            <h5> A propos : </h5>
+            <div> {{ artist.description }}</div>
+        </div>
+    {% endblock %}
+
+    {% block style %}
+        <style>
+            .photos{
+                margin: 2%;
+                border: solid 1px lightgrey;
+                border-radius: 15px;
+                display: flex;
+                /*justify-content: center;*/
+                align-items: center;
+            }
+
+            .photo{
+                margin: 1%;
+                max-width: 20%;
+            }
+
+        </style>
+    {% endblock %}

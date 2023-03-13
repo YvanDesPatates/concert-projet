@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ConcertHall index{% endblock %}
+
+{% block body %}
+    <h1>ConcertHall index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>SeatCapacity</th>
+                <th>StandingCapacity</th>
+                <th>RenovationStartDate</th>
+                <th>RenovationEndDate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for concert_hall in concert_halls %}
+            <tr>
+                <td>{{ concert_hall.id }}</td>
+                <td>{{ concert_hall.name }}</td>
+                <td>{{ concert_hall.description }}</td>
+                <td>{{ concert_hall.seatCapacity }}</td>
+                <td>{{ concert_hall.standingCapacity }}</td>
+                <td>{{ concert_hall.renovationStartDate ? concert_hall.renovationStartDate|date('Y-m-d') : '' }}</td>
+                <td>{{ concert_hall.renovationEndDate ? concert_hall.renovationEndDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_concert_hall_show', {'id': concert_hall.id}) }}">show</a>
+                    <a href="{{ path('app_concert_hall_edit', {'id': concert_hall.id}) }}">edit</a>
+                    <a href="{{ path('app_concert_hall_delete', {'id': concert_hall.id}) }}">delete</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_concert_hall_new') }}">Create new</a>
+{% endblock %}

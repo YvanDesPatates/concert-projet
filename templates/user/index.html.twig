@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+<div id="infosUser">
+    <a id="modif" href="{{ path('app_user_edit', {id: app.user.id}) }}"> modifier mon compte </a>
+    <div class="info">
+        <div class="titre">email : </div> <div> {{ app.user.email }}</div>
+    </div>
+    <div class="info">
+        <div class="titre">prénom : </div> <div> {{ app.user.firstName }}</div>
+    </div>
+    <div class="info">
+        <div class="titre">nom : </div> <div> {{ app.user.lastName }}</div>
+    </div>
+    <div class="info">
+        <div class="titre">adresse : </div> <div> {{ app.user.adresse }}</div>
+    </div>
+    <div id="artistsliked">mes artistes likés : </div>
+    <div id="artists">
+        {% for artist in app.user.artistsLiked %}
+            <a class="artist" href="{{ path('artist', {id: artist.id}) }}">
+                <div class="card">
+                    {% if artist.getPhotos().get(0)%}
+                        <img class="card-img-top" src="{{ artist.getPhotos().get(0).getUrl() }}" alt="image de l'artiste">
+                    {% endif %}
+                    <div class="card-body">
+                        <h6 class="card-title">{{  artist.getName() }}</h6>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block style %}
+    <style>
+        #infosUser{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #modif{
+            text-decoration: none;
+            color: coral;
+            margin: 2%;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .info{
+            display: flex;
+            margin: 2%;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .titre{
+            font-weight: bold;
+            font-size: large;
+            margin-right: 1%;
+        }
+
+        #artistsliked{
+            font-weight: bold;
+            font-size: large;
+            margin-top: 2%;
+        }
+
+        #artists{
+            display: flex;
+            justify-content: center;
+        }
+
+        .artist{
+            width: 15%;
+            margin: 1%;
+        }
+    </style>
+{% endblock %}

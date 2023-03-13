@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Concerts{% endblock %}
+
+{% block body %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Artists</th>
+            <th scope="col">Date</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for concert in concerts %}
+            <tr>
+                <td> <a href="{{ path('concert', {id: concert.id}) }}">{{ concert.name }}</a> </td>
+                <td> {% for artist in concert.artistsPerformers %} {{ artist.name }} | {% endfor %}</td>
+                <td> {% if concert.date %} {{ concert.date.format('d-m-Y H:i') }} {% endif %} </td>
+                <td>
+                    <a href="{{ path('concert_delete', {id: concert.id}) }}"> <button type="button" class="btn btn-danger btn-sm">X</button> </a>
+                    <a href="{{ path('concert_update', {id: concert.id}) }}"> <button type="button" class="btn btn-info btn-sm">update</button> </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div>
+        <a href="{{ path('concert_create') }}"> créer un nouveau concert </a>
+    </div>
+{% endblock %}
+
